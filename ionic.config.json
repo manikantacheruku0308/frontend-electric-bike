@@ -1,0 +1,7 @@
+{
+  "name": "frontend-electric-bike",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
