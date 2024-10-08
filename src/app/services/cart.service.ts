@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment.prod';
   providedIn: 'root',
 })
 export class CartService {
+  backend_url = environment.server_url ;
   private cartItems: any[] = []; 
   constructor(private http: HttpClient) {}
 
