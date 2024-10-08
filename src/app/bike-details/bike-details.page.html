@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ bike.model }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngIf="bike">
+    <ion-card-header>
+      <ion-card-title>{{ bike.model }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>Color: {{ bike.color }}</p>
+      <p>Price: {{ bike.price | currency: 'INR' }}</p>
+      <p>Distance per Charge: {{ bike.distancePerCharge }} km</p>
+      <p>Battery Capacity: {{ bike.batteryCapacity }} Ah</p>
+      <p>Manufacturer: {{ bike.manufacturer }}</p>
+      <p>Release Date: {{ bike.releaseDate | date }}</p>
+      <p>Sold: {{ bike.sold ? 'Yes' : 'No' }}</p>
+
+      <!-- Add to Cart Button -->
+      <ion-button expand="block" (click)="addToCart(bike)">
+        Add to Cart
+      </ion-button>
+
+      <!-- Delivery Address Field -->
+      <ion-item>
+        <ion-label position="floating">Delivery Address</ion-label>
+        <ion-input [(ngModel)]="deliveryAddress" required></ion-input>
+      </ion-item>
+
+      <!-- Payment Method Selection -->
+      <ion-item>
+        <ion-label position="floating">Payment Method</ion-label>
+        <ion-select [(ngModel)]="paymentMethod" required>
+          <ion-select-option value="Cash">Cash</ion-select-option>
+          <ion-select-option value="Card">Card</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <!-- Place Order Button -->
+      <ion-button expand="block" (click)="placeOrder()">
+        Place Order
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

@@ -1,20 +1,23 @@
-<ion-header [translucent]="true">
+<ion-header class="header">
   <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+    <ion-title>Bikes</ion-title>
   </ion-toolbar>
+  <ion-searchbar 
+    class="google-search-bar" 
+    placeholder="Search bikes"  
+    [(ngModel)]="term" 
+    (ionInput)="searchBikes()">
+  </ion-searchbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+<ion-content>
+  <ion-list class="bike-list">
+    <ion-item *ngFor="let bike of filteredBikes" [routerLink]="['/bike-details', bike._id]">
+      <ion-label>
+        <img [src]="'assets/images/' + bike.image" alt="{{ bike.model }}" width="200" height="200">
+        <h2>{{ bike.model }}</h2>
+        <p>{{ bike.color }} - {{ bike.price | currency:'INR'}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>

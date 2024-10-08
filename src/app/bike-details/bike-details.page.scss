@@ -1,0 +1,19 @@
+ion-card{
+    display: flex;
+    align-items: center;
+}
+.buttons-container{
+   margin-left: 100px;
+   
+}
+button{
+  background-color: rgb(21, 82, 195);
+  margin: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  color: #fff;
+  border-radius: 5px;
+  font-weight: 500;
+}
