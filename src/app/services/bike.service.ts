@@ -7,10 +7,10 @@ import { environment } from 'src/environments/environment.prod';
   providedIn: 'root'
 })
 export class BikeService {
-  backend_url = environment.server_url ;
-  private API_URL = '{server_url}/bike';
-  private CART_URL = '{server_url}/cart';  
-  private ORDER_URL = '{server_url}/order'; 
+  //backend_url = environment.server_url ;
+  private API_URL = `${environment.server_url}/bike`; //`${backend_url}`
+  private CART_URL = `${environment.server_url}/cart`;  
+  private ORDER_URL = `${environment.server_url}/order`; 
 
   constructor(private http: HttpClient) {}
 
