@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +15,7 @@ export class CartService {
     if (!this.isInCart(item._id)) {
         this.cartItems.push(item);
         return this.http
-            .post('http://localhost:2900/cart/addtocart', {
+            .post('{server_url}/cart/addtocart', {
                 userId,
                 bikeId: item._id,
                 email
@@ -35,7 +36,7 @@ export class CartService {
 
 
   loadCartItems(email: any): Observable<any[]> {
-    return this.http.get<any[]>(`http://localhost:2900/cart/${email}`).pipe(
+    return this.http.get<any[]>(`{server_url}/cart/${email}`).pipe(
       tap((items) => {
         this.cartItems = items; 
         console.log('Loaded Cart Items:', this.cartItems); 

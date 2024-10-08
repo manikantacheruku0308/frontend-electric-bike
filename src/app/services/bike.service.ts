@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BikeService {
-  private API_URL = 'http://localhost:2900/bike';
-  private CART_URL = 'http://localhost:2900/cart';  
-  private ORDER_URL = 'http://localhost:2900/order'; 
+  backend_url = environment.server_url ;
+  private API_URL = '{server_url}/bike';
+  private CART_URL = '{server_url}/cart';  
+  private ORDER_URL = '{server_url}/order'; 
 
   constructor(private http: HttpClient) {}
 
