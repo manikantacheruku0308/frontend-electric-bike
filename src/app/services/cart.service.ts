@@ -37,7 +37,7 @@ export class CartService {
 
 
   loadCartItems(email: any): Observable<any[]> {
-    return this.http.get<any[]>(`{server_url}/cart/${email}`).pipe(
+    return this.http.get<any[]>(`${environment.server_url}/cart/${email}`).pipe(
       tap((items) => {
         this.cartItems = items; 
         console.log('Loaded Cart Items:', this.cartItems); 
