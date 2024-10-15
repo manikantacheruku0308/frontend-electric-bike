@@ -8,35 +8,29 @@ import { environment } from 'src/environments/environment.prod';
   providedIn: 'root',
 })
 export class CartService {
- // backend_url = environment.server_url ;
   private cartItems: any[] = []; 
+
   constructor(private http: HttpClient) {}
 
-  addToCart(item: any, userId: string, email : any): Observable<any> {
+  addToCart(item: any, userId: string, email: string): Observable<any> {
     if (!this.isInCart(item._id)) {
-        this.cartItems.push(item);
-        return this.http
-            .post(`${environment.server_url}/cart/addtocart`, {
-                userId,
-                bikeId: item._id,
-                email
-            })
-            .pipe(
-                catchError((error) => {
-                    console.error('Error adding to cart:', error); 
-                    return throwError(error);
-                }),
-                tap(() => {
-                    console.log('Current Cart Items:', this.cartItems);
-                })
-            );
+      this.cartItems.push(item);
+      return this.http.post(`${environment.server_url}/cart/addtocart`, {
+        userId,
+        bikeId: item._id,
+        email
+      }).pipe(
+        catchError(this.handleError),
+        tap(() => {
+          console.log('Current Cart Items:', this.cartItems);
+        })
+      );
     } else {
-        return of({ success: false, message: 'Bike is already in the cart' });
+      return of({ success: false, message: 'Bike is already in the cart' });
     }
-}
+  }
 
-
-  loadCartItems(email: any): Observable<any[]> {
+  loadCartItems(email: string): Observable<any[]> {
     return this.http.get<any[]>(`${environment.server_url}/cart/${email}`).pipe(
       tap((items) => {
         this.cartItems = items; 
@@ -61,6 +55,7 @@ export class CartService {
     } else {
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
+    console.error(errorMessage);  // Log the error to console
     return throwError(errorMessage);
   }
 }
