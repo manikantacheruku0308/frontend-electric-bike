@@ -22,7 +22,7 @@ export class BikeDetailsPage implements OnInit {
     private cartService: CartService,
     private authService: AuthService,
     private router: Router,
-    private orderService : OrderService
+    private orderService: OrderService
   ) {}
 
   ngOnInit() {
@@ -39,21 +39,26 @@ export class BikeDetailsPage implements OnInit {
   addToCart(bike: any) {
     const userId = this.authService.getUserId(); 
     const email = localStorage.getItem("email");
-    this.cartService.addToCart(bike, userId, email).subscribe(
-      response => {
-        if (response.success) {
-          // Successfully added to cart
-          console.log('Added to cart:', response.message);
-          this.router.navigate(['/cart']);
-        } else {
-          alert(response.message); 
+
+    if (email) {
+      this.cartService.addToCart(bike, userId, email).subscribe(
+        response => {
+          if (response.success) {
+            // Successfully added to cart
+            console.log('Added to cart:', response.message);
+            this.router.navigate(['/cart']);
+          } else {
+            alert(response.message); 
+          }
+        },
+        error => {
+          console.error('Error adding to cart:', error);
+          alert('There was an error adding the bike to the cart. Please try again.');
         }
-      },
-      error => {
-        console.error('Error adding to cart:', error);
-        alert('There was an error adding the bike to the cart. Please try again.');
-      }
-    );
+      );
+    } else {
+      alert('No email found in local storage. Please log in again.');
+    }
   }
 
   placeOrder() {
@@ -64,7 +69,7 @@ export class BikeDetailsPage implements OnInit {
     console.log('Order placed for:', this.bike.model);
     console.log('Delivery Address:', this.deliveryAddress);
     console.log('Payment Method:', this.paymentMethod);
-      this.orderPlace()
+    this.orderPlace();
     this.router.navigate(['/order-confirmation']);
   }
 
