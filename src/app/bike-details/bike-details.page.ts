@@ -39,26 +39,20 @@ export class BikeDetailsPage implements OnInit {
   addToCart(bike: any) {
     const userId = this.authService.getUserId(); 
     const email = localStorage.getItem("email");
-
-    if (email) {
-      this.cartService.addToCart(bike, userId, email).subscribe(
-        response => {
-          if (response.success) {
-            // Successfully added to cart
-            console.log('Added to cart:', response.message);
-            this.router.navigate(['/cart']);
-          } else {
-            alert(response.message); 
-          }
-        },
-        error => {
-          console.error('Error adding to cart:', error);
-          alert('There was an error adding the bike to the cart. Please try again.');
+    this.cartService.addToCart(bike, userId, email).subscribe(
+      response => {
+        if (response.success) {
+          console.log('Added to cart:', response.message);
+          this.router.navigate(['/cart']);
+        } else {
+          alert(response.message); 
         }
-      );
-    } else {
-      alert('No email found in local storage. Please log in again.');
-    }
+      },
+      error => {
+        console.error('Error adding to cart:', error);
+        alert('There was an error adding the bike to the cart. Please try again.');
+      }
+    );
   }
 
   placeOrder() {
