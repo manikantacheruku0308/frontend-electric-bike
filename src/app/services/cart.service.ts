@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment.prod';
   providedIn: 'root',
 })
 export class CartService {
-  backend_url = environment.server_url ;
+ // backend_url = environment.server_url ;
   private cartItems: any[] = []; 
   constructor(private http: HttpClient) {}
 
@@ -16,7 +16,7 @@ export class CartService {
     if (!this.isInCart(item._id)) {
         this.cartItems.push(item);
         return this.http
-            .post('{server_url}/cart/addtocart', {
+            .post(`${environment.server_url}/cart/addtocart`, {
                 userId,
                 bikeId: item._id,
                 email
