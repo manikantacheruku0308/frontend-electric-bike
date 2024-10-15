@@ -1,66 +1,47 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, of, throwError } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from '../../environments/environment';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class CartService {
- // backend_url = environment.server_url ;
-  private cartItems: any[] = []; 
+  private cartItems: any[] = [];
+
   constructor(private http: HttpClient) {}
-
-  addToCart(item: any, userId: string, email : any): Observable<any> {
-    if (!this.isInCart(item._id)) {
-        this.cartItems.push(item);
-        return this.http
-            .post(`${environment.server_url}/cart/addtocart`, {
-                userId,
-                bikeId: item._id,
-                email
-            })
-            .pipe(
-                catchError((error) => {
-                    console.error('Error adding to cart:', error); 
-                    return throwError(error);
-                }),
-                tap(() => {
-                    console.log('Current Cart Items:', this.cartItems);
-                })
-            );
-    } else {
-        return of({ success: false, message: 'Bike is already in the cart' });
-    }
-}
-
-
-  loadCartItems(email: any): Observable<any[]> {
-    return this.http.get<any[]>(`${environment.server_url}/cart/${email}`).pipe(
-      tap((items) => {
-        this.cartItems = items; 
-        console.log('Loaded Cart Items:', this.cartItems); 
-      }),
-      catchError(this.handleError)
-    );
-  }
-
-  getCartItems() {
-    return this.cartItems;
-  }
 
   isInCart(bikeId: string): boolean {
     return this.cartItems.some(item => item._id === bikeId);
   }
 
-  private handleError(error: HttpErrorResponse) {
-    let errorMessage = 'Unknown error!';
-    if (error.error instanceof ErrorEvent) {
-      errorMessage = `Error: ${error.error.message}`;
-    } else {
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+  addToCart(bike: any, userId: string, email: string) {
+    if (!email) {
+      return of({
+        success: false,
+        message: "Email is required"
+      });
     }
-    return throwError(errorMessage);
+
+    return this.isInCart(bike._id) ? 
+      of({
+        success: false,
+        message: "Bike is already in the cart"
+      }) : 
+      (this.cartItems.push(bike),
+      this.http.post(`${environment.server_url}/cart/addtocart`, {
+        userId: userId,
+        bikeId: bike._id,
+        email: email
+      }).pipe(
+        catchError(error => {
+          console.error("Error adding to cart:", error);
+          return of({ success: false, message: 'Error adding to cart' });
+        }),
+        tap(() => {
+          console.log("Current Cart Items:", this.cartItems);
+        })
+      ));
   }
 }

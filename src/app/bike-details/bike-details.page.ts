@@ -39,6 +39,13 @@ export class BikeDetailsPage implements OnInit {
   addToCart(bike: any) {
     const userId = this.authService.getUserId(); 
     const email = localStorage.getItem("email");
+
+    // Check if email is available
+    if (!email) {
+      alert('Email is required. Please log in.');
+      return;
+    }
+
     this.cartService.addToCart(bike, userId, email).subscribe(
       response => {
         if (response.success) {
@@ -64,16 +71,15 @@ export class BikeDetailsPage implements OnInit {
     console.log('Delivery Address:', this.deliveryAddress);
     console.log('Payment Method:', this.paymentMethod);
     this.orderPlace();
-    this.router.navigate(['/order-confirmation']);
   }
 
   orderPlace() {
     this.orderService.placeOrder(this.deliveryAddress, this.paymentMethod).subscribe(
       (response) => {
         console.log('Order placed successfully');
-        this.router.navigate(['/order']).then(
+        this.router.navigate(['/order-confirmation']).then(
           () => {
-            console.log('Navigation to /order was successful');
+            console.log('Navigation to /order-confirmation was successful');
           },
           (error) => {
             console.error('Error during navigation', error);
