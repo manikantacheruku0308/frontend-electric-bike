@@ -47,8 +47,8 @@ export class BikeDetailsPage implements OnInit {
     }
 
     this.cartService.addToCart(bike, userId, email).subscribe(
-      response => {
-        if (response.success) {
+      (response: any) => {
+        if ((response as { success: boolean }).success) {
           console.log('Added to cart:', response.message);
           this.router.navigate(['/cart']);
         } else {

@@ -24,6 +24,8 @@ export class CartService {
       });
     }
 
+
+
     return this.isInCart(bike._id) ? 
       of({
         success: false,
@@ -44,4 +46,27 @@ export class CartService {
         })
       ));
   }
+
+  loadCartItems(email: string | null) {
+    if (!email) {
+      return of([]);  // Return an empty array if no email is found
+    }
+  
+    return this.http.get<any[]>(`${environment.server_url}/cart/items`, {
+      params: { email }
+    }).pipe(
+      catchError(error => {
+        console.error('Error loading cart items:', error);
+        return of([]);  // Return an empty array if there's an error
+      })
+    );
+  }
+  
+
+
+
+
+
+
 }
+
