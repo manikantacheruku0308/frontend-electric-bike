@@ -1,19 +1,46 @@
-ion-card{
-    display: flex;
-    align-items: center;
+ion-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.buttons-container{
-   margin-left: 100px;
-   
+
+.buttons-container {
+  margin-left: 100px;
 }
-button{
+
+button {
   background-color: rgb(21, 82, 195);
   margin: 10px;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding: 5px 10px;
   color: #fff;
   border-radius: 5px;
   font-weight: 500;
+}
+
+.bike-image-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 450px; /* Increased height to make the bike image larger */
+}
+
+.bike-details {
+  padding: 20px;
+}
+
+ion-img {
+  width: auto;
+  max-height: 450px; /* Adjust the height of the bike image */
+}
+
+img {
+  margin-top: 40px;
+  border-radius: 6px;
+  width: auto;
+  height: 100%;
+}
+
+ion-button {
+  margin-top: 10px;
+  background-color: black;
 }

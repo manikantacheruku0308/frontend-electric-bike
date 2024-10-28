@@ -13,6 +13,11 @@ import { OrderService } from '../services/order.service';
 export class BikeDetailsPage implements OnInit {
   bikeId: string | null = null;
   bike: any = {};
+
+  // Store original image and a counter for thumbnails clicked
+  originalImage: string = '';
+  thumbnailsClickedCount: number = 0;
+
   deliveryAddress: string = ''; 
   paymentMethod: string = '';
 
@@ -31,6 +36,9 @@ export class BikeDetailsPage implements OnInit {
       if (this.bikeId) {
         this.bikeService.getBikeDetails(this.bikeId).subscribe((data: any) => {
           this.bike = data;
+
+          // Store original image
+          this.originalImage = this.bike.image;
         });
       }
     });
@@ -40,7 +48,6 @@ export class BikeDetailsPage implements OnInit {
     const userId = this.authService.getUserId(); 
     const email = localStorage.getItem("email");
 
-    // Check if email is available
     if (!email) {
       alert('Email is required. Please log in.');
       return;
@@ -67,9 +74,6 @@ export class BikeDetailsPage implements OnInit {
       alert('Please fill in delivery address and payment method.');
       return;
     }
-    console.log('Order placed for:', this.bike.model);
-    console.log('Delivery Address:', this.deliveryAddress);
-    console.log('Payment Method:', this.paymentMethod);
     this.orderPlace();
   }
 
@@ -77,18 +81,26 @@ export class BikeDetailsPage implements OnInit {
     this.orderService.placeOrder(this.deliveryAddress, this.paymentMethod).subscribe(
       (response) => {
         console.log('Order placed successfully');
-        this.router.navigate(['/order-confirmation']).then(
-          () => {
-            console.log('Navigation to /order-confirmation was successful');
-          },
-          (error) => {
-            console.error('Error during navigation', error);
-          }
-        );
+        this.router.navigate(['/order-confirmation']);
       },
       (error) => {
         console.error('Error placing order', error);
       }
     );
+  }
+
+  changeMainImage(thumbnail: string) {
+    console.log('Thumbnail clicked:', thumbnail); // Log the clicked thumbnail
+    this.bike.image = 'thumbnails/'+thumbnail; // Correctly update the main image
+    console.log('Updated main image:', this.bike.image); // Log the updated main image
+    this.thumbnailsClickedCount++;
+
+    // Revert to original image after clicking all thumbnails
+    if (this.thumbnailsClickedCount === this.bike.thumbnails.length) {
+        setTimeout(() => {
+            this.bike.image = this.originalImage; // Revert to original image
+            this.thumbnailsClickedCount = 0; // Reset the counter
+        }, 1000);
+    }
   }
 }

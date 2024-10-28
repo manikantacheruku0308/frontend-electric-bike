@@ -10,7 +10,7 @@ ion-content {
   top: 0; 
   bottom: 0; 
   overflow-y: auto; 
-  padding: 16px; 
+  padding: 15px; 
   box-sizing: border-box; 
 }
 
@@ -29,12 +29,35 @@ ion-content {
 #container a {
   text-decoration: none;
 }
-.bike-list{
+
+.bike-list {
   display: grid;
-  grid-template-columns: repeat(3,1fr);
+  grid-template-columns: repeat(3, 1fr);
   grid-gap: 10px;
   padding: 10px;
 }
-.header{
+
+.header {
   display: flex;
+}
+
+
+.bike-list img {
+
+  transition: transform 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.bike-list ion-item:hover img {
+  transform: scale(1.05); /* Scale the image slightly on hover */
+}
+
+/* Shadow effect on ion-item */
+.bike-list ion-item {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow effect */
+   border-radius: 10px; 
+}
+
+/* Optional: to remove shadow on hover */
+.bike-list ion-item:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Slightly stronger shadow on hover */
 }
